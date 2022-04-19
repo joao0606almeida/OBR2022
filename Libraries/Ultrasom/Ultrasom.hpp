@@ -3,9 +3,10 @@
 #include <Arduino.h>
 
 class Sensor{
+private:
+  byte EchoPin = 0;
+  byte TriggerPin = 0;
     public:
-        byte EchoPin = 0;
-        byte TriggerPin = 0;
         Sensor(byte Trigger, byte Echo){
             EchoPin = Echo;
             TriggerPin = Trigger;

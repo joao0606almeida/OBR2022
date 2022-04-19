@@ -4,6 +4,7 @@ Este codigo deve ser usado com um Arduino ATMEGA 2560. Ele provavelmente nao fun
 Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em placa suportadas pelo mesmo.
 */
 #include "Libraries/Ultrasom/Ultrasom.hpp"
+#include "Libraries/PonteH/PonteH.hpp"
 
 //definir portas de sensores/pontes com nomes para conveniencia
 #define infra0 A15
@@ -14,9 +15,13 @@ Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em pla
 #define ponteI4 37
 #define ponteENA 2
 #define ponteENB 3
+
 //definir variaveis globais de calibracao
 int infraWhiteValue[2];
 //TODO: int infraBlackValue;
+
+//initializar PonteH
+Ponteh ponte(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
 
 /*
 Funcao responsavel por calibrar sensores
@@ -35,15 +40,8 @@ void setup() {
   //Definir pinos de seonsores como input
   pinMode(infra0, INPUT);
   pinMode(infra1, INPUT);
-  //definir pinos de ponteH como output
-  pinMode(ponteI1, OUTPUT);
-  pinMode(ponteI2, OUTPUT);
-  pinMode(ponteI3, OUTPUT);
-  pinMode(ponteI4, OUTPUT);
-  digitalWrite(ponteI1, LOW);
-  digitalWrite(ponteI2, LOW);
-  digitalWrite(ponteI3, LOW);
-  digitalWrite(ponteI4, LOW);
+  //setar velocidade
+  ponte.setSpeed(80);
   //calibrar sensores
   calibrar();
 }
@@ -60,32 +58,18 @@ bool ehBranco(int sensorInput, int index){
 }
 
 void loop() {
-  analogWrite(ponteENA, 80);
-  analogWrite(ponteENB, 80);
   if(ehBranco(analogRead(infra0),0)&&ehBranco(analogRead(infra1),1)){
       //tudo branco, frente
-      digitalWrite(ponteI1, HIGH);
-      digitalWrite(ponteI2, LOW);
-      digitalWrite(ponteI3, HIGH);
-      digitalWrite(ponteI4, LOW);
+      ponte.foward();
   }else if(ehBranco(analogRead(infra0),0)){
       //direita preto, direita
-      digitalWrite(ponteI1, LOW);
-      digitalWrite(ponteI2, HIGH);
-      digitalWrite(ponteI3, HIGH);
-      digitalWrite(ponteI4, LOW);
+      ponte.right();
   }else if(ehBranco(analogRead(infra1),1)){
       //esquerda preto, esquerda
-      digitalWrite(ponteI1, HIGH);
-      digitalWrite(ponteI2, LOW);
-      digitalWrite(ponteI3, LOW);
-      digitalWrite(ponteI4, HIGH);
+      ponte.left();
   }else{
       //TODO: AJEITAR ISSO, NAO FUNCIONA
-      digitalWrite(ponteI1, HIGH);
-      digitalWrite(ponteI2, LOW);
-      digitalWrite(ponteI3, HIGH);
-      digitalWrite(ponteI4, LOW);
+      ponte.foward();
       delay(1000);
   }
 }
