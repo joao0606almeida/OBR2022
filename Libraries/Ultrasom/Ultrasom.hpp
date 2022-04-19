@@ -17,7 +17,7 @@ private:
             pinMode(Trigger, OUTPUT);
             pinMode(EchoPin, INPUT);
         }
-        float MedirDistancia(byte Echo, byte Trigger){
+        float measureDistance(byte Echo, byte Trigger){
             long duracao, cm;
             //limpar trigger pin, evite missfires
             digitalWrite(TriggerPin, LOW);
@@ -33,7 +33,7 @@ private:
             cm = (duracao/2) / 29.1;
             return cm;
         }
-        float MedirDistancia(){
+        float measureDistance(){
             return MedirDistancia(EchoPin, TriggerPin);
         }
 };
