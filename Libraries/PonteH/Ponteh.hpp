@@ -1,3 +1,7 @@
+/*
+Bibioteca feita para ponteH L298N. Nao a nenhuma garantia de funcionamento para outras pontes.
+Nenhuma garantia de funcionamento, embora teoricamente deva funcionar, mesmo na ponte L298N.
+*/
 #ifndef PonteH
 #define PonteH
 #include <Arduino.h>
