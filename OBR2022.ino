@@ -5,11 +5,40 @@ Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em pla
 */
 #include "Libraries/Ultrasom/Ultrasom.hpp"
 
-void setup() {
- 
+//definir portas de sensores/pontes com nomes para conveniencia
+#define infra0 A15
+#define infra1 A14
+#define ponteH1 A0
+#define ponteH2 A1
+//definir variaveis globais de calibracao
+int infraWhiteValue;
+//TODO: int infraBlackValue;
+
+/*
+Funcao responsavel por calibrar sensores
+*/
+void calibrar(){
+  delay(1000);
+  int infraWhiteValue[2];
+  infraWhiteValue[0] = analogRead(infra0);
+  infraWhiteValue[1] = analogRead(infra1);
 }
 
+/*
+Setup inicial, definir inputs, inicial calibramento, etc
+*/
+void setup() {
+  //Definir pinos de seonsores como input
+  pinMode(infra0, INPUT);
+  pinMode(infra1, INPUT);
+  //definir pinos de ponteH como output
+  pinMode(ponteH1, OUTPUT);
+  pinMode(ponteH2, OUTPUT);
+  //calibrar sensores
+  calibrar();
+}
+
+
 void loop() {
-
-
+  
 }
