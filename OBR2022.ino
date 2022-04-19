@@ -63,14 +63,14 @@ void loop() {
   if(ehBranco(analogRead(infra0),0)&&ehBranco(analogRead(infra1),1)){
       //tudo branco, frente
       ponte->foward();
-  }else if(ehBranco(analogRead(infra0),0)){
+  }else if(ehBranco(analogRead(infra0),0)&&!ehBranco(analogRead(infra1),1)){
       //direita preto, direita
       ponte->right();
-  }else if(ehBranco(analogRead(infra1),1)){
+  }else if(ehBranco(analogRead(infra1),1)&&!ehBranco(analogRead(infra0),0)){
       //esquerda preto, esquerda
       ponte->left();
   }else{
-      //TODO: AJEITAR ISSO, NAO FUNCIONA
+      //Dois pretos, frente
       ponte->foward();
       delay(1000);
   }
