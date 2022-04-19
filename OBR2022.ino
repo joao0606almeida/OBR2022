@@ -23,7 +23,7 @@ int infraWhiteValue[2];
 //TODO: int infraBlackValue;
 
 //initializar PonteH
-Ponteh ponte = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
+Ponteh ponte* = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
 
 /*
 Funcao responsavel por calibrar sensores
@@ -43,7 +43,7 @@ void setup() {
   pinMode(infra0, INPUT);
   pinMode(infra1, INPUT);
   //setar velocidade
-  ponte.setSpeed(80);
+  ponte->setSpeed(80);
   //calibrar sensores
   calibrar();
 }
@@ -62,16 +62,16 @@ bool ehBranco(int sensorInput, int index){
 void loop() {
   if(ehBranco(analogRead(infra0),0)&&ehBranco(analogRead(infra1),1)){
       //tudo branco, frente
-      ponte.foward();
+      ponte->foward();
   }else if(ehBranco(analogRead(infra0),0)){
       //direita preto, direita
-      ponte.right();
+      ponte->right();
   }else if(ehBranco(analogRead(infra1),1)){
       //esquerda preto, esquerda
-      ponte.left();
+      ponte->left();
   }else{
       //TODO: AJEITAR ISSO, NAO FUNCIONA
-      ponte.foward();
+      ponte->foward();
       delay(1000);
   }
 }
