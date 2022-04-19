@@ -23,7 +23,7 @@ int infraWhiteValue[2];
 //TODO: int infraBlackValue;
 
 //initializar PonteH
-Ponteh ponte* = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
+Ponteh *ponte = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
 
 /*
 Funcao responsavel por calibrar sensores
