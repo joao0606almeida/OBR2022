@@ -1,6 +1,6 @@
 /*
-Biblioteca feita para o sensor ultrassonico HS04. nehuma garantia de funcionamento com outros sensores.
-Nehuma garantia mesmo no sensor HS04, embora teoricamente deva funcionar.
+Biblioteca feita para o sensor ultrassonico HC-SR04. nehuma garantia de funcionamento com outros sensores.
+Nehuma garantia mesmo no sensor HC-SR04, embora teoricamente deva funcionar.
 */
 #ifndef Ultrasom
 #define Ultrasom
