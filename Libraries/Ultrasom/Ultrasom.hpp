@@ -36,8 +36,6 @@ private:
         float read(){
             return measure(EchoPin, TriggerPin);
         }
-        byte getEcho() return EchoPin;
-        byte getTrigger() return TriggerPin;
         void trigger(){
           digitalWrite(TriggerPin, LOW);
           delayMicroseconds(5);
