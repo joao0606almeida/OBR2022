@@ -1,7 +1,10 @@
 #ifndef Infrared
 #define Infrared
 #include <Arduino.h>
-
+/*
+Biblioteca para facilitar o uso de sensores infravermelhos.
+Deeve funcionar com qualquer um, desde que seu input seja um UNICO pino analogico
+*/
 struct Color{
   typedef enum {WHITE, GREEN, BLACK} COLOR;
 };
