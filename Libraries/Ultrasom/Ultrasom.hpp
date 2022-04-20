@@ -36,6 +36,8 @@ private:
         float read(){
             return measure(EchoPin, TriggerPin);
         }
+        byte getEcho() return EchoPin;
+        bytre getTrigger() return TriggerPin;
 };
 
 #endif
