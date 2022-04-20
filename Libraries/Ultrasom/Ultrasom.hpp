@@ -37,6 +37,18 @@ private:
             return measure(EchoPin, TriggerPin);
         }
         byte getEcho() return EchoPin;
+        byte getTrigger() return TriggerPin;
+        void trigger(){
+          digitalWrite(TriggerPin, LOW);
+          delayMicroseconds(5);
+          //trigger
+          digitalWrite(TriggerPin, HIGH);
+          delayMicroseconds(10);
+          digitalWrite(TriggerPin, LOW);
+
+
+        }
+        byte getEcho() return EchoPin;
         bytre getTrigger() return TriggerPin;
 };
 
