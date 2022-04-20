@@ -17,7 +17,7 @@ private:
             pinMode(Trigger, OUTPUT);
             pinMode(EchoPin, INPUT);
         }
-        float read(byte Echo, byte Trigger){
+        float measure(byte Echo, byte Trigger){
             long duracao, cm;
             //limpar trigger pin, evite missfires
             digitalWrite(TriggerPin, LOW);
@@ -34,7 +34,7 @@ private:
             return cm;
         }
         float read(){
-            return read(EchoPin, TriggerPin);
+            return measure(EchoPin, TriggerPin);
         }
 };
 
