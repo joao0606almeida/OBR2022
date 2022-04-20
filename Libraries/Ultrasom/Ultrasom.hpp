@@ -2,22 +2,22 @@
 Biblioteca feita para o sensor ultrassonico HC-SR04. nehuma garantia de funcionamento com outros sensores.
 Nehuma garantia mesmo no sensor HC-SR04, embora teoricamente deva funcionar.
 */
-#ifndef Ultrasom
-#define Ultrasom
+#ifndef Ultrassonic
+#define Ultrassonic
 #include <Arduino.h>
 
-class Sensor{
+class UltrassonicSensor{
 private:
   byte EchoPin = 0;
   byte TriggerPin = 0;
     public:
-        Sensor(byte Trigger, byte Echo){
+        UltrassonicSensor(byte Trigger, byte Echo){
             EchoPin = Echo;
             TriggerPin = Trigger;
             pinMode(Trigger, OUTPUT);
             pinMode(EchoPin, INPUT);
         }
-        float measureDistance(byte Echo, byte Trigger){
+        float read(byte Echo, byte Trigger){
             long duracao, cm;
             //limpar trigger pin, evite missfires
             digitalWrite(TriggerPin, LOW);
@@ -33,8 +33,8 @@ private:
             cm = (duracao/2) / 29.1;
             return cm;
         }
-        float measureDistance(){
-            return MedirDistancia(EchoPin, TriggerPin);
+        float read(){
+            return read(EchoPin, TriggerPin);
         }
 };
 

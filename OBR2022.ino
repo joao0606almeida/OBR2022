@@ -2,11 +2,13 @@
 Este e o arquivo principal. Seu nome de difere da convencao de "main.x" devido a restircoes do arduino IDE.
 Este codigo deve ser usado com um Arduino ATMEGA 2560. Ele provavelmente nao funcionara em outros.
 Adiocionalmente, como definido nos seus respectivos arquivos, a bibliotecas Ultrasom.hpp e PonteH.hpp sao, 
-respectivamente, feitas para sesnores HC-SR04 e ponteH L298N. Provavelmenta nao funcionarao com outras.
+respectivamente, feitas para sesnores HC-SR04, ponteH L298N. A biblioteca Infrared.hpp deve funcionar com qualquer sensor, 
+DESDE que seu input seja por um UNICO pino analogico.  Provavelmenta nao funcionarao com outros(as).
 Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em placa suportadas pelo mesmo.
 */
 #include "Libraries/Ultrasom/Ultrasom.hpp"
 #include "Libraries/PonteH/PonteH.hpp"
+#include "Libraries/Infrared/Infrared.hpp"
 
 //definir portas de sensores/pontes com nomes para conveniencia
 #define infra0 A15
@@ -18,55 +20,34 @@ Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em pla
 #define ponteENA 2
 #define ponteENB 3
 
-//definir variaveis globais de calibracao
-int infraWhiteValue[2];
-//TODO: int infraBlackValue;
-
-//initializar PonteH
+//initializar partes do robo
 Ponteh *ponte = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
+InfraredSensor *inf0 = new InfraredSensor(infra0);
+InfraredSensor *inf1 = new InfraredSensor(infra1);
 
 /*
-Funcao responsavel por calibrar sensores
-*/
-void calibrar(){
-  delay(1000);
-  //multiplicamos por mil para diminuir as diferencas da imprecisao de sensores
-  infraWhiteValue[0] = analogRead(infra0)*1000;
-  infraWhiteValue[1] = analogRead(infra1)*1000;
-}
-
-/*
-Setup inicial, definir inputs, inicial calibramento, etc
+Setup inicial, calibracao de sensores
+TODO: Calibracao multi-etapa para verde
 */
 void setup() {
-  //Definir pinos de seonsores como input
-  pinMode(infra0, INPUT);
-  pinMode(infra1, INPUT);
   //setar velocidade
   ponte->setSpeed(80);
+  //esperar os sensores ligarem
+  delay(1000);
   //calibrar sensores
-  calibrar();
-}
-
-/*
-Funcao de conveniciencia, checka se e branco ou nao
-*/
-bool ehBranco(int sensorInput, int index){
-  if(sensorInput*1000>=infraWhiteValue[index]){
-    return true;
-  }else{
-    return false;
-  }
+  inf0->calibrateWhite();
+  inf1->calibrateWhite();
 }
 
 void loop() {
-  if(ehBranco(analogRead(infra0),0)&&ehBranco(analogRead(infra1),1)){
+  //TODO:Logica para os verdes
+  if(inf0->read()==Color::WHITE&&inf1->read()==Color::WHITE){
       //tudo branco, frente
       ponte->foward();
-  }else if(ehBranco(analogRead(infra0),0)&&!ehBranco(analogRead(infra1),1)){
+  }else if(inf0->read()==Color::WHITE&&inf1->read()==Color::BLACK){
       //direita preto, direita
       ponte->right();
-  }else if(ehBranco(analogRead(infra1),1)&&!ehBranco(analogRead(infra0),0)){
+  }else if(inf0->read()==Color::BLACK&&inf1->read()==Color::WHITE){
       //esquerda preto, esquerda
       ponte->left();
   }else{
