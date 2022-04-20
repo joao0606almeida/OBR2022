@@ -47,7 +47,7 @@ private:
 
         }
         byte getEcho() {return EchoPin;}
-        bytre getTrigger() {return TriggerPin;}
+        byte getTrigger() {return TriggerPin;}
 };
 
 #endif
