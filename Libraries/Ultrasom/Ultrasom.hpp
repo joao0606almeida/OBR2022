@@ -45,7 +45,11 @@ private:
           digitalWrite(TriggerPin, HIGH);
           delayMicroseconds(10);
           digitalWrite(TriggerPin, LOW);
+
+
         }
+        byte getEcho() return EchoPin;
+        bytre getTrigger() return TriggerPin;
 };
 
 #endif
