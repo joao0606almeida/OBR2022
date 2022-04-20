@@ -48,8 +48,8 @@ private:
 
 
         }
-        byte getEcho() return EchoPin;
-        bytre getTrigger() return TriggerPin;
+        byte getEcho() {return EchoPin;}
+        bytre getTrigger() {return TriggerPin;}
 };
 
 #endif
