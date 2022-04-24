@@ -20,10 +20,23 @@ Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em pla
 #define ponteENA 2
 #define ponteENB 3
 
+//initializar varaveis globais
+volatile float fowardDistance;
+volatile long fowardTime = micros();
+volatile bool fowardCall;
 //initializar partes do robo
 Ponteh *ponte = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
 InfraredSensor *inf0 = new InfraredSensor(infra0);
 InfraredSensor *inf1 = new InfraredSensor(infra1);
+UltrassonicSensor *foward = new UltrassonicSensor(1,2);
+
+
+void fowardIsr(){
+  long currentTime = micros();
+  long duracao = currentTime - fowardTime;
+  fowardDistance = ((float)duracao/2) / 29.1;
+  fowardCall = true;
+}
 
 /*
 Setup inicial, calibracao de sensores
@@ -37,9 +50,20 @@ void setup() {
   //calibrar sensores
   inf0->calibrateWhite();
   inf1->calibrateWhite();
+  attachInterrupt(digitalPinToInterrupt(foward->getEcho()), fowardIsr, RISING);
+  foward->trigger();
+  fowardTime = millis();
+}
+
+void interruptsCheck(){
+  if(fowardCall){
+    fowardCall = false;
+    foward->trigger();
+  }
 }
 
 void loop() {
+  interruptsCheck();
   //TODO:Logica para os verdes
   if(inf0->read()==Color::WHITE&&inf1->read()==Color::WHITE){
       //tudo branco, frente
