@@ -31,7 +31,7 @@ TODO: Calibracao multi-etapa para verde
 */
 void setup() {
   //setar velocidade
-  ponte->setSpeed(80);
+  ponte->setSpeed(100);
   //esperar os sensores ligarem
   delay(1000);
   //calibrar sensores
@@ -42,7 +42,6 @@ void setup() {
 void loop() {
   //TODO:Logica para os verdes
   if(inf0->read()==Color::WHITE&&inf1->read()==Color::WHITE){
-      //tudo branco, frente
       ponte->foward();
   }else if(inf0->read()==Color::WHITE&&inf1->read()==Color::BLACK){
       //direita preto, direita
