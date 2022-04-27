@@ -13,12 +13,12 @@ Nenhuma garantia sobre o funcionamente deste codigo sera oferecida, mesmo em pla
 //definir portas de sensores/pontes com nomes para conveniencia
 #define infra0 A15
 #define infra1 A14
-#define ponteI1 31
-#define ponteI2 33
-#define ponteI3 35
-#define ponteI4 37
-#define ponteENA 2
-#define ponteENB 3
+#define ponteI1 11
+#define ponteI2 10
+#define ponteI3 4
+#define ponteI4 6
+#define ponteENA 9
+#define ponteENB 5
 
 //initializar partes do robo
 Ponteh *ponte = new Ponteh(ponteI1, ponteI2, ponteI3, ponteI4, ponteENA, ponteENB);
@@ -31,7 +31,7 @@ TODO: Calibracao multi-etapa para verde
 */
 void setup() {
   //setar velocidade
-  ponte->setSpeed(100);
+  ponte->setSpeed(50);
   //esperar os sensores ligarem
   delay(1000);
   //calibrar sensores
@@ -42,13 +42,18 @@ void setup() {
 void loop() {
   //TODO:Logica para os verdes
   if(inf0->read()==Color::WHITE&&inf1->read()==Color::WHITE){
+      ponte->setSpeed(60);
       ponte->foward();
-  }else if(inf0->read()==Color::WHITE&&inf1->read()==Color::BLACK){
+  }else if(inf1->read()==Color::WHITE&&inf0->read()==Color::BLACK){
       //direita preto, direita
-      ponte->right();
-  }else if(inf0->read()==Color::BLACK&&inf1->read()==Color::WHITE){
+      ponte->setSpeedRightSide(0);
+      ponte->setSpeedLeftSide(90);
+      
+  }else if(inf1->read()==Color::BLACK&&inf0->read()==Color::WHITE){
       //esquerda preto, esquerda
-      ponte->left();
+      pinMode(LED_BUILTIN, LOW);
+      ponte->setSpeedLeftSide(0);
+      ponte->setSpeedRightSide(90);
   }else{
       //Dois pretos, frente
       ponte->foward();
